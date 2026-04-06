@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CartQuote — Privacy Policy</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f8fafc;
+      color: #334155;
+      line-height: 1.7;
+    }
+    .container {
+      max-width: 680px;
+      margin: 40px auto;
+      padding: 48px 40px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 8px 32px rgba(0,0,0,0.06);
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+    .updated {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-bottom: 32px;
+    }
+    h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #0f172a;
+      margin-top: 28px;
+      margin-bottom: 12px;
+    }
+    p { margin-bottom: 16px; font-size: 15px; }
+    ul {
+      margin: 0 0 16px 24px;
+      font-size: 15px;
+    }
+    li { margin-bottom: 8px; }
+    strong { color: #0f172a; }
+    .highlight {
+      background: #f0fdf4;
+      border-left: 3px solid #22c55e;
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+    .contact {
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid #f1f5f9;
+      font-size: 14px;
+      color: #64748b;
+    }
+    .contact a { color: #1a73e8; text-decoration: none; }
+    .contact a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: March 2026</p>
+
+    <p>CartQuote ("we", "the extension") is a Chrome browser extension that generates PDF price summaries from online shopping carts. We are committed to protecting your privacy and being transparent about how data is handled.</p>
+
+    <div class="highlight">
+      <strong>The short version:</strong> We process cart page HTML through a secure AI service to extract item data. No personal information is transmitted to our servers. Customer details you enter stay on your device only. We do not sell, share, or retain any user data.
+    </div>
+
+    <h2>What data is collected</h2>
+
+    <p><strong>Cart page HTML (processed, not stored):</strong> When you click the CartQuote icon, the extension extracts a cleaned version of the current page's HTML (scripts, styles, navigation, and non-cart content are stripped). This cleaned HTML is sent to our secure server for AI-powered item extraction. The server processes the request and returns structured data (item names, prices, quantities). The HTML is not stored on our servers after processing.</p>
+
+    <p><strong>Brand detection data (local only):</strong> The extension detects the retailer's name, logo, and brand colors directly in your browser. This data never leaves your device.</p>
+
+    <p><strong>Customer details (local only):</strong> If you enter your name, email, or phone number in the customer details section, this information is stored locally on your device using Chrome's built-in storage. It is never transmitted to any server.</p>
+
+    <p><strong>Quote history (local only):</strong> Generated PDF quotes are stored locally on your device (up to 20 quotes). They are never uploaded or transmitted.</p>
+
+    <p><strong>Usage count (local only):</strong> The extension tracks the number of quotes generated per month locally to manage free tier limits. This count is stored on your device only.</p>
+
+    <p><strong>License key (synced via Chrome):</strong> If you upgrade to Pro, your license key is stored using Chrome's sync storage, which syncs across your Chrome browsers via your Google account. The license key is validated with our payment provider (LemonSqueezy) when activated.</p>
+
+    <h2>What data is NOT collected</h2>
+    <ul>
+      <li>We do not collect your browsing history</li>
+      <li>We do not track which websites you visit</li>
+      <li>We do not collect personal information (name, email, phone)</li>
+      <li>We do not use cookies or tracking pixels</li>
+      <li>We do not sell any data to third parties</li>
+      <li>We do not store cart HTML on our servers after processing</li>
+    </ul>
+
+    <h2>How data is processed</h2>
+    <p>When you generate a quote, the cleaned cart HTML is sent via HTTPS to a Cloudflare Worker (our secure server proxy). The Worker forwards the request to OpenAI's API for structured data extraction. OpenAI processes the request and returns item data. Neither Cloudflare nor OpenAI stores the request data beyond what is needed to process it. OpenAI's data usage policy for API calls explicitly states that API inputs are not used to train models.</p>
+
+    <h2>Permissions</h2>
+    <p>CartQuote requests the following browser permissions:</p>
+    <ul>
+      <li><strong>activeTab:</strong> To read the current page's content when you click the extension icon</li>
+      <li><strong>scripting:</strong> To inject the content extraction script into the active tab</li>
+      <li><strong>storage:</strong> To save your customer details, quote history, and usage data locally</li>
+      <li><strong>downloads:</strong> To save the generated PDF to your computer</li>
+      <li><strong>contextMenus:</strong> To add a "Quote History" option to the extension's right-click menu</li>
+    </ul>
+
+    <h2>Third-party services</h2>
+    <ul>
+      <li><strong>Cloudflare Workers:</strong> Hosts our server proxy that processes cart data</li>
+      <li><strong>OpenAI API:</strong> Powers the AI extraction of cart items from HTML</li>
+      <li><strong>LemonSqueezy:</strong> Handles Pro subscription payments and license validation</li>
+    </ul>
+
+    <h2>Data retention</h2>
+    <p>Cart HTML sent for processing is not retained on our servers. Quote history and customer details stored locally on your device persist until you clear them or uninstall the extension.</p>
+
+    <h2>Changes to this policy</h2>
+    <p>We may update this policy from time to time. Changes will be reflected in the "Last updated" date above.</p>
+
+    <div class="contact">
+      <p>Questions about this privacy policy? Contact us at <a href="mailto:support@prevailpartners.com.au">support@prevailpartners.com.au</a></p>
+    </div>
+  </div>
+</body>
+</html>
