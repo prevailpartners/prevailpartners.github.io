@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="CartQuote turns a shopping cart into a reviewed item-price PDF in Chrome.">
+  <meta name="description" content="Turn your cart into a PDF you can check, edit and share with CartQuote for Chrome.">
   <link rel="canonical" href="https://cartquote.prevailpartners.com.au/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://cartquote.prevailpartners.com.au/">
-  <meta property="og:title" content="CartQuote — a clearer record of current prices">
-  <meta property="og:description" content="Turn a shopping cart into a reviewed item-price PDF in Chrome.">
-  <title>CartQuote — a clearer record of current prices</title>
+  <meta property="og:title" content="CartQuote — turn your cart into a PDF you can check and share">
+  <meta property="og:description" content="Check and edit the items, quantities and prices, then save a dated PDF record.">
+  <title>CartQuote — turn your cart into a PDF you can check and share</title>
   <style>
     :root {
       --ink: #10213d;
@@ -128,13 +128,28 @@
     .demo-text ol { margin: 14px 0; padding-left: 23px; }
     .demo-text li { margin: 0 0 12px; }
     .demo-text p { margin: 13px 0 0; }
-    .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 34px; }
-    .plan { display: flex; flex-direction: column; min-height: 230px; padding: 23px; border: 1px solid var(--line); background: var(--white); }
-    .plan.featured { border: 2px solid var(--blue); transform: translateY(-8px); }
+    .plans { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 12px; margin-top: 34px; align-items: stretch; }
+    .plan { display: flex; flex-direction: column; min-height: 270px; padding: 23px; border: 1px solid var(--line); background: var(--white); }
+    .plan.featured { border: 2px solid var(--blue); }
     .plan-name { font-weight: 800; }
     .price { margin: 21px 0 8px; font: 700 2.1rem/1 Iowan Old Style, Baskerville, Georgia, serif; }
     .plan p { margin: 0; color: var(--quiet); font-size: .86rem; }
     .plan small { margin-top: auto; padding-top: 20px; color: var(--quiet); font-size: .72rem; }
+    .billing-choice { margin: 18px 0 20px; padding: 0; border: 0; }
+    .billing-choice legend { margin-bottom: 8px; color: var(--quiet); font-size: .78rem; font-weight: 750; }
+    .billing-options { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); }
+    .billing-option { position: relative; display: flex; align-items: center; justify-content: center; gap: 7px; min-height: 42px; padding: 8px 12px; border-radius: 5px; color: var(--quiet); cursor: pointer; font-size: .84rem; font-weight: 750; }
+    .billing-option:has(input:checked) { background: var(--white); color: var(--ink); box-shadow: 0 2px 8px rgb(16 33 61 / 10%); }
+    .billing-option input { width: 1rem; height: 1rem; margin: 0; accent-color: var(--blue); }
+    .billing-option:has(input:focus-visible) { outline: 3px solid #f1a931; outline-offset: 3px; }
+    .billing-copy { min-height: 104px; }
+    .billing-copy .price { display: block; margin-top: 0; }
+    .billing-copy p + p { margin-top: 7px; }
+    .billing-copy [data-billing="annual"] { display: none; }
+    .featured:has(#billing-annual:checked) .billing-copy [data-billing="monthly"] { display: none; }
+    .featured:has(#billing-annual:checked) .billing-copy [data-billing="annual"] { display: block; }
+    .pro-features { margin: 18px 0 0; padding: 17px 0 0 20px; border-top: 1px solid var(--line); color: var(--quiet); font-size: .86rem; }
+    .pro-features li + li { margin-top: 7px; }
     .boundary { margin-top: 46px; padding: 20px 22px; border-left: 4px solid var(--blue); background: #eaf2ff; color: #273a55; font-size: .92rem; }
     .faq { max-width: 790px; margin: 47px auto 0; }
     .faq h3 { font: 700 1.9rem/1 Iowan Old Style, Baskerville, Georgia, serif; letter-spacing: -.03em; margin: 0 0 18px; }
@@ -155,7 +170,8 @@
       .document { margin: 22px auto 0; width: calc(100% - 16px); transform: rotate(1deg); }
       .section { padding: 59px 0; }
       .uses, .plans { grid-template-columns: 1fr; }
-      .plan.featured { transform: none; }
+      .nav { gap: 13px; }
+      .nav a { font-size: .82rem; }
       .demo { padding-bottom: 58px; }
       .demo-caption { display: block; }
       .demo-caption span { display: block; margin-top: 5px; }
@@ -167,7 +183,7 @@
 <body>
   <header class="shell masthead">
     <a class="brand" href="#top" aria-label="CartQuote home"><img src="assets/cartquote-mark.svg" alt=""><span>CartQuote</span></a>
-    <nav class="nav" aria-label="Page navigation"><a href="#demo">Watch demo</a><a href="privacy.html">Privacy</a></nav>
+    <nav class="nav" aria-label="Page navigation"><a href="#demo">Demo</a><a href="#pricing">Pricing</a><a href="privacy.html">Privacy</a></nav>
   </header>
 
   <main id="top">
@@ -175,8 +191,8 @@
       <div>
         <p class="eyebrow">A clearer record of current prices</p>
         <p class="status">Public and paid launch coming soon</p>
-        <h1 id="hero-title">Your cart, made <em>clear.</em></h1>
-        <p class="lede">CartQuote turns a shopping cart into an item-price summary you can review and edit before downloading as a PDF. Review every line, then download a dated record for replacement-price research or a purchase review.</p>
+        <h1 id="hero-title">Turn your cart into a PDF you can <em>check and share.</em></h1>
+        <p class="lede">Check and edit the items, quantities and prices, then save a dated PDF record for purchase review or replacement-price research.</p>
         <a class="button" href="#demo">Watch the demo</a>
         <p class="microcopy">Want launch information or product support? <a href="mailto:operations@prevailpartners.com.au?subject=CartQuote%20support">Email Prevail Partners</a>.</p>
       </div>
@@ -239,12 +255,41 @@
       </div>
     </section>
 
-    <section class="shell section" aria-labelledby="plans-title">
-      <p class="eyebrow">Launch pricing in AUD</p><h2 id="plans-title">A clear monthly capture allowance.</h2>
+    <section class="shell section" id="pricing" aria-labelledby="plans-title">
+      <p class="eyebrow">Introductory pricing in AUD</p><h2 id="plans-title">A clear monthly capture allowance.</h2>
       <div class="plans">
-        <article class="plan"><span class="plan-name">Free</span><span class="price">A$0</span><p>Five AI cart captures each UTC calendar month.</p><small>No payment required.</small></article>
-        <article class="plan featured"><span class="plan-name">Pro monthly</span><span class="price">A$4.99</span><p>100 AI cart captures each month.</p><small>Billed monthly.</small></article>
-        <article class="plan"><span class="plan-name">Pro annual</span><span class="price">A$39.99</span><p>100 AI cart captures each month.</p><small>Billed annually.</small></article>
+        <article class="plan">
+          <span class="plan-name">Free</span>
+          <span class="price">A$0</span>
+          <p>Five AI cart captures per UTC calendar month, per installation.</p>
+          <small>No payment required.</small>
+        </article>
+        <article class="plan featured">
+          <span class="plan-name">Pro</span>
+          <fieldset class="billing-choice">
+            <legend>Choose a billing period</legend>
+            <div class="billing-options">
+              <label class="billing-option"><input id="billing-monthly" type="radio" name="billing" value="monthly" checked> Monthly</label>
+              <label class="billing-option"><input id="billing-annual" type="radio" name="billing" value="annual"> Annual</label>
+            </div>
+          </fieldset>
+          <div class="billing-copy">
+            <div data-billing="monthly">
+              <span class="price">A$4.99</span>
+              <p>Billed monthly.</p>
+            </div>
+            <div data-billing="annual">
+              <span class="price">A$39.99</span>
+              <p>Billed annually.</p>
+              <p>Equivalent to A$3.33/month. Save A$19.89 compared with 12 monthly payments totalling A$59.88 (33% saving).</p>
+            </div>
+          </div>
+          <ul class="pro-features">
+            <li>100 AI cart captures per UTC calendar month, shared across devices using the same licence.</li>
+            <li>The allowance resets monthly with no rollover or automatic overage charges. Annual billing does not pool the year’s allowance.</li>
+          </ul>
+          <small>Downloading or re-downloading a PDF already saved in local Quote History is free. History keeps up to 20 PDFs and may keep fewer if browser storage is full.</small>
+        </article>
       </div>
       <section class="faq" aria-labelledby="allowance-title">
         <h3 id="allowance-title">Capture allowance and downloads</h3>
