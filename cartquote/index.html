@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="CartQuote turns a shopping cart into a reviewed item-price PDF in Chrome.">
+  <link rel="canonical" href="https://prevailpartners.github.io/cartquote/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://prevailpartners.github.io/cartquote/">
+  <meta property="og:title" content="CartQuote — a clearer record of current prices">
+  <meta property="og:description" content="Turn a shopping cart into a reviewed item-price PDF in Chrome.">
+  <title>CartQuote — a clearer record of current prices</title>
+  <style>
+    :root {
+      --ink: #10213d;
+      --paper: #f8f6f0;
+      --blue: #1659c7;
+      --sky: #bbd8ff;
+      --line: #d9dce2;
+      --quiet: #516074;
+      --white: #fff;
+      --shadow: 0 22px 60px rgb(16 33 61 / 12%);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+    a { color: inherit; }
+    a:focus-visible { outline: 3px solid #f1a931; outline-offset: 4px; }
+    .shell { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+    .masthead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 0;
+    }
+    .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 800; }
+    .brand img { width: 34px; height: 34px; }
+    .nav { display: flex; align-items: center; gap: 18px; }
+    .nav a { color: var(--quiet); font-size: .9rem; }
+    .hero {
+      display: grid;
+      grid-template-columns: 1.04fr .96fr;
+      gap: clamp(36px, 7vw, 92px);
+      align-items: center;
+      padding: clamp(52px, 8vw, 104px) 0 72px;
+    }
+    .eyebrow { color: var(--blue); font-size: .78rem; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
+    h1, h2 { font-family: Iowan Old Style, Baskerville, Georgia, serif; letter-spacing: -.045em; line-height: .98; }
+    h1 { font-size: clamp(3.2rem, 7vw, 6.5rem); margin: 18px 0 24px; max-width: 700px; }
+    h1 em { color: var(--blue); font-style: normal; }
+    .lede { color: var(--quiet); font-size: clamp(1.08rem, 2vw, 1.28rem); max-width: 580px; margin: 0 0 30px; }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      padding: 0 23px;
+      border-radius: 7px;
+      background: var(--blue);
+      color: var(--white);
+      font-weight: 750;
+      text-decoration: none;
+      box-shadow: 0 8px 20px rgb(22 89 199 / 22%);
+    }
+    .button:hover { background: #0d479f; }
+    .microcopy { color: var(--quiet); font-size: .82rem; margin: 13px 0 0; }
+    .status { display: inline-flex; gap: 8px; align-items: center; margin: 0 0 19px; padding: 6px 9px; background: #eaf2ff; color: #173966; font-size: .78rem; font-weight: 750; }
+    .status::before { content: ""; width: 7px; height: 7px; background: var(--blue); border-radius: 50%; }
+    .document {
+      position: relative;
+      max-width: 440px;
+      margin-left: auto;
+      padding: 27px;
+      background: var(--white);
+      border-radius: 3px;
+      box-shadow: var(--shadow);
+      transform: rotate(2.2deg);
+    }
+    .document::before {
+      content: "REVIEW BEFORE DOWNLOADING";
+      position: absolute;
+      top: -15px;
+      right: -18px;
+      padding: 7px 10px;
+      background: #f1a931;
+      color: #392b08;
+      font-size: .65rem;
+      font-weight: 800;
+      letter-spacing: .07em;
+      transform: rotate(-5deg);
+    }
+    .doc-top { display: flex; justify-content: space-between; align-items: center; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+    .doc-logo { display: inline-flex; align-items: center; gap: 8px; font-size: .85rem; font-weight: 800; }
+    .doc-logo img { width: 23px; height: 23px; }
+    .doc-date { color: var(--quiet); font-size: .72rem; }
+    .doc-title { font: 700 1.7rem/1 Iowan Old Style, Baskerville, Georgia, serif; margin: 29px 0 22px; }
+    .row { display: grid; grid-template-columns: 1fr auto; gap: 16px; padding: 11px 0; border-bottom: 1px solid #edf0f3; font-size: .83rem; }
+    .row span:last-child { font-variant-numeric: tabular-nums; }
+    .total { display: flex; justify-content: space-between; margin-top: 23px; padding-top: 14px; border-top: 2px solid var(--ink); font-weight: 800; }
+    .doc-note { margin: 22px 0 0; color: var(--quiet); font-size: .68rem; }
+    .rule { height: 1px; background: var(--line); }
+    .section { padding: 86px 0; }
+    .section-grid { display: grid; grid-template-columns: .75fr 1.25fr; gap: clamp(30px, 7vw, 100px); }
+    h2 { margin: 12px 0 0; font-size: clamp(2.3rem, 4vw, 4.2rem); }
+    .steps { list-style: none; padding: 0; margin: 0; counter-reset: steps; }
+    .steps li { counter-increment: steps; display: grid; grid-template-columns: 48px 1fr; gap: 18px; padding: 0 0 28px; }
+    .steps li::before { content: "0" counter(steps); color: var(--blue); font: 800 1.05rem/1 Iowan Old Style, Baskerville, Georgia, serif; padding-top: 4px; }
+    .steps strong { display: block; font-size: 1.02rem; margin-bottom: 4px; }
+    .steps p { color: var(--quiet); margin: 0; }
+    .uses { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+    .use { background: var(--paper); padding: 27px; min-height: 180px; }
+    .use b { display: block; font: 700 1.42rem/1.05 Iowan Old Style, Baskerville, Georgia, serif; margin-bottom: 12px; }
+    .use p { color: var(--quiet); font-size: .91rem; margin: 0; }
+    .demo { padding: 20px 0 84px; }
+    .demo-wrap { overflow: hidden; background: var(--ink); box-shadow: var(--shadow); }
+    .demo video { display: block; width: 100%; max-height: 630px; background: #071426; }
+    .demo-caption { display: flex; justify-content: space-between; gap: 22px; padding: 15px 18px; color: #d9e5f9; font-size: .83rem; }
+    .demo-caption span:last-child { color: var(--sky); }
+    .demo details { border: 1px solid var(--line); border-top: 0; background: var(--white); }
+    .demo summary { padding: 17px 18px; cursor: pointer; font-weight: 750; color: var(--ink); }
+    .demo-text { padding: 0 18px 22px; color: var(--quiet); font-size: .9rem; }
+    .demo-text ol { margin: 14px 0; padding-left: 23px; }
+    .demo-text li { margin: 0 0 12px; }
+    .demo-text p { margin: 13px 0 0; }
+    .plans { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 34px; }
+    .plan { display: flex; flex-direction: column; min-height: 230px; padding: 23px; border: 1px solid var(--line); background: var(--white); }
+    .plan.featured { border: 2px solid var(--blue); transform: translateY(-8px); }
+    .plan-name { font-weight: 800; }
+    .price { margin: 21px 0 8px; font: 700 2.1rem/1 Iowan Old Style, Baskerville, Georgia, serif; }
+    .plan p { margin: 0; color: var(--quiet); font-size: .86rem; }
+    .plan small { margin-top: auto; padding-top: 20px; color: var(--quiet); font-size: .72rem; }
+    .boundary { margin-top: 46px; padding: 20px 22px; border-left: 4px solid var(--blue); background: #eaf2ff; color: #273a55; font-size: .92rem; }
+    .close { padding: 76px 0; text-align: center; }
+    .close h2 { max-width: 700px; margin: 0 auto 24px; }
+    .capacity { padding: 19px 0; border-top: 1px solid var(--line); color: var(--quiet); font-size: .8rem; }
+    footer { border-top: 1px solid var(--line); padding: 25px 0 38px; color: var(--quiet); font-size: .8rem; }
+    footer .shell { display: flex; justify-content: space-between; gap: 16px; }
+    @media (max-width: 760px) {
+      .shell { width: min(100% - 28px, 560px); }
+      .masthead { padding: 17px 0; }
+      .hero, .section-grid { grid-template-columns: 1fr; }
+      .hero { padding-top: 42px; }
+      .document { margin: 22px auto 0; width: calc(100% - 16px); transform: rotate(1deg); }
+      .section { padding: 59px 0; }
+      .uses, .plans { grid-template-columns: 1fr; }
+      .plan.featured { transform: none; }
+      .demo { padding-bottom: 58px; }
+      .demo-caption { display: block; }
+      .demo-caption span { display: block; margin-top: 5px; }
+      footer .shell { display: block; }
+      footer p { margin: 0 0 10px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="shell masthead">
+    <a class="brand" href="#top" aria-label="CartQuote home"><img src="assets/cartquote-mark.svg" alt=""><span>CartQuote</span></a>
+    <nav class="nav" aria-label="Page navigation"><a href="#demo">Watch demo</a><a href="privacy.html">Privacy</a></nav>
+  </header>
+
+  <main id="top">
+    <section class="shell hero" aria-labelledby="hero-title">
+      <div>
+        <p class="eyebrow">A clearer record of current prices</p>
+        <p class="status">Public and paid launch coming soon</p>
+        <h1 id="hero-title">Your cart, made <em>clear.</em></h1>
+        <p class="lede">CartQuote turns a shopping cart into an item-price summary you can review and edit before downloading as a PDF. Review every line, then download a dated record for replacement-price research or a purchase review.</p>
+        <a class="button" href="#demo">Watch the demo</a>
+        <p class="microcopy">Want launch information or product support? <a href="mailto:operations@prevailpartners.com.au?subject=CartQuote%20support">Email Prevail Partners</a>.</p>
+      </div>
+      <div class="document" aria-label="Example CartQuote item-price summary">
+        <div class="doc-top"><span class="doc-logo"><img src="assets/cartquote-mark.svg" alt="">CartQuote</span><span class="doc-date">DATE CAPTURED · 14 SEP</span></div>
+        <p class="doc-title">ITEM-PRICE SUMMARY</p>
+        <div class="row"><span>Desk lamp, matte black</span><span>A$89.00</span></div>
+        <div class="row"><span>Oak side table</span><span>A$249.00</span></div>
+        <div class="row"><span>Storage basket</span><span>A$36.00</span></div>
+        <div class="total"><span>ITEM TOTAL</span><span>A$374.00</span></div>
+        <p class="doc-note">Example only. Check items and prices before downloading.</p>
+      </div>
+    </section>
+
+    <div class="rule"></div>
+
+    <section class="shell section section-grid" aria-labelledby="how-title">
+      <div><p class="eyebrow">Three steps</p><h2 id="how-title">Built for the moment the cart is ready.</h2></div>
+      <ol class="steps">
+        <li><div><strong>Open the cart</strong><p>Use CartQuote from the Chrome tab where you are already building a retailer cart.</p></div></li>
+        <li><div><strong>Review the summary</strong><p>Check the extracted descriptions, quantities and item prices. Edit anything that needs correction.</p></div></li>
+        <li><div><strong>Save the record</strong><p>Download a dated PDF price summary when you are satisfied with the details.</p></div></li>
+      </ol>
+    </section>
+
+    <section class="shell section" aria-labelledby="uses-title">
+      <p class="eyebrow">Useful when</p><h2 id="uses-title">The price on the page needs a better record.</h2>
+      <div class="uses" role="list">
+        <article class="use" role="listitem"><b>Replacement-price research</b><p>Keep a reviewed record while comparing current retail item prices.</p></article>
+        <article class="use" role="listitem"><b>Purchase review</b><p>Give a proposed business purchase a clean item-by-item summary.</p></article>
+        <article class="use" role="listitem"><b>Personal records</b><p>Save a clear snapshot instead of relying on a long cart screenshot.</p></article>
+      </div>
+    </section>
+
+    <section class="shell demo" id="demo" aria-labelledby="demo-title">
+      <p class="eyebrow">See the flow</p><h2 id="demo-title">From cart to reviewed summary.</h2>
+      <div class="demo-wrap">
+        <video controls preload="metadata" poster="assets/cartquote-demo-poster.jpg" aria-describedby="demo-description">
+          <source src="assets/cartquote-demo.mp4" type="video/mp4">
+          Your browser does not support embedded video. <a href="assets/cartquote-demo.mp4">Download the CartQuote demo</a>.
+        </video>
+        <div class="demo-caption" id="demo-description"><span>Earlier product demo. Retailer support varies; AI results need checking.</span><span>Music and on-screen text; no spoken narration. Public launch is coming soon.</span></div>
+        <details>
+          <summary>Read the demo description</summary>
+          <div class="demo-text">
+            <p>The video uses background music and on-screen text only; there is no spoken narration.</p>
+            <ol>
+              <li>A Bunnings-style <em>PRICE SUMMARY</em> PDF appears with four example items and prices. On-screen text: “Your shopping cart…” then “…to a professional PDF in seconds.”</li>
+              <li>The CartQuote logo appears with “Capture. Download. Done.” The scene changes to scattered screenshots with “No more messy screenshots.”</li>
+              <li>A Bunnings cart appears in a browser. An animated cursor clicks the CartQuote extension icon. On-screen text says “Any store. Any cart.”</li>
+              <li>The extension loading view appears, followed by a populated preview. On-screen text says “CartQuote scans the page.” and then “Every item and price, perfectly captured.”</li>
+              <li>The cursor selects Download. The example PDF returns with the on-screen text “Branded PDF, ready to send.”</li>
+              <li>Three feature cards appear: “AI-Powered” (“Works on any retailer. Amazon, Bunnings, IKEA — no setup needed.”), “Professional PDFs” (“Branded with retailer logo, colours, and itemised pricing.”), and “One Click” (“Open your cart, click the icon, download. Done in seconds.”).</li>
+              <li>Three use-case cards appear: “Insurance Claims” (“Document everything for your claim”), “Business Procurement” (“Professional price estimates for submission”), and “Personal Records” (“Keep track of what you’re spending”).</li>
+              <li>A retailer-logo grid appears with “Works with any store” and “Where there’s an online cart, there’s CartQuote.” The closing screen shows “5 free price summaries every month” and “Add to Chrome — it’s free.”</li>
+            </ol>
+            <p><strong>Current launch context:</strong> this is an earlier demo. The launch page describes a reviewed item-price summary, not an official retailer document or proof of purchase or ownership. It excludes shipping, order-level discounts and additional tax. The video’s universal retailer, perfect-capture, claim and immediate-install wording is illustrative older demo copy, not a current guarantee. Public and paid launch are still planned.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="shell section" aria-labelledby="plans-title">
+      <p class="eyebrow">Launch pricing in AUD</p><h2 id="plans-title">Choose the pace that fits the job.</h2>
+      <div class="plans">
+        <article class="plan"><span class="plan-name">Free</span><span class="price">A$0</span><p>Five price summaries each month.</p><small>No payment required.</small></article>
+        <article class="plan featured"><span class="plan-name">Pro monthly</span><span class="price">A$4.99</span><p>Create more than five summaries a month while subscribed.</p><small>Billed monthly.</small></article>
+        <article class="plan"><span class="plan-name">Pro annual</span><span class="price">A$39.99</span><p>Create more than five summaries a month while subscribed.</p><small>Billed annually.</small></article>
+        <article class="plan"><span class="plan-name">Lifetime</span><span class="price">A$79</span><p>One payment for CartQuote Pro access for the lifetime of the product.</p><small>No recurring charge.</small></article>
+      </div>
+      <aside class="boundary"><strong>What the PDF covers:</strong> item prices shown in the cart and reviewed by you. It does not represent shipping, order-level discounts, additional tax, an official retailer quote or invoice, or proof of purchase or ownership.</aside>
+    </section>
+
+    <section class="shell close" aria-labelledby="close-title">
+      <p class="eyebrow">Launch information</p><h2 id="close-title">Make the current price easier to keep.</h2>
+      <a class="button" href="mailto:operations@prevailpartners.com.au?subject=CartQuote%20launch%20information">Email Prevail Partners</a>
+    </section>
+  </main>
+
+  <div class="capacity"><div class="shell">Pro access is subject to temporary service-capacity limits. Payment availability and final sale terms will be confirmed at launch.</div></div>
+  <footer><div class="shell"><p>CartQuote is developed by Prevail Partners.</p><p><a href="mailto:operations@prevailpartners.com.au?subject=CartQuote%20support">operations@prevailpartners.com.au</a> · <a href="privacy.html">Privacy policy</a></p></div></footer>
+</body>
+</html>
