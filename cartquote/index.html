@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="CartQuote turns a shopping cart into a reviewed item-price PDF in Chrome.">
-  <link rel="canonical" href="https://prevailpartners.github.io/cartquote/">
+  <link rel="canonical" href="https://cartquote.prevailpartners.com.au/">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://prevailpartners.github.io/cartquote/">
+  <meta property="og:url" content="https://cartquote.prevailpartners.com.au/">
   <meta property="og:title" content="CartQuote — a clearer record of current prices">
   <meta property="og:description" content="Turn a shopping cart into a reviewed item-price PDF in Chrome.">
   <title>CartQuote — a clearer record of current prices</title>
@@ -128,7 +128,7 @@
     .demo-text ol { margin: 14px 0; padding-left: 23px; }
     .demo-text li { margin: 0 0 12px; }
     .demo-text p { margin: 13px 0 0; }
-    .plans { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 34px; }
+    .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 34px; }
     .plan { display: flex; flex-direction: column; min-height: 230px; padding: 23px; border: 1px solid var(--line); background: var(--white); }
     .plan.featured { border: 2px solid var(--blue); transform: translateY(-8px); }
     .plan-name { font-weight: 800; }
@@ -136,6 +136,12 @@
     .plan p { margin: 0; color: var(--quiet); font-size: .86rem; }
     .plan small { margin-top: auto; padding-top: 20px; color: var(--quiet); font-size: .72rem; }
     .boundary { margin-top: 46px; padding: 20px 22px; border-left: 4px solid var(--blue); background: #eaf2ff; color: #273a55; font-size: .92rem; }
+    .faq { max-width: 790px; margin: 47px auto 0; }
+    .faq h3 { font: 700 1.9rem/1 Iowan Old Style, Baskerville, Georgia, serif; letter-spacing: -.03em; margin: 0 0 18px; }
+    .faq details { border-top: 1px solid var(--line); }
+    .faq details:last-child { border-bottom: 1px solid var(--line); }
+    .faq summary { padding: 17px 2px; cursor: pointer; font-weight: 750; }
+    .faq p { margin: 0; padding: 0 2px 18px; color: var(--quiet); font-size: .92rem; }
     .close { padding: 76px 0; text-align: center; }
     .close h2 { max-width: 700px; margin: 0 auto 24px; }
     .capacity { padding: 19px 0; border-top: 1px solid var(--line); color: var(--quiet); font-size: .8rem; }
@@ -234,14 +240,32 @@
     </section>
 
     <section class="shell section" aria-labelledby="plans-title">
-      <p class="eyebrow">Launch pricing in AUD</p><h2 id="plans-title">Choose the pace that fits the job.</h2>
+      <p class="eyebrow">Launch pricing in AUD</p><h2 id="plans-title">A clear monthly capture allowance.</h2>
       <div class="plans">
-        <article class="plan"><span class="plan-name">Free</span><span class="price">A$0</span><p>Five price summaries each month.</p><small>No payment required.</small></article>
-        <article class="plan featured"><span class="plan-name">Pro monthly</span><span class="price">A$4.99</span><p>Create more than five summaries a month while subscribed.</p><small>Billed monthly.</small></article>
-        <article class="plan"><span class="plan-name">Pro annual</span><span class="price">A$39.99</span><p>Create more than five summaries a month while subscribed.</p><small>Billed annually.</small></article>
-        <article class="plan"><span class="plan-name">Lifetime</span><span class="price">A$79</span><p>One payment for CartQuote Pro access for the lifetime of the product.</p><small>No recurring charge.</small></article>
+        <article class="plan"><span class="plan-name">Free</span><span class="price">A$0</span><p>Five AI cart captures each UTC calendar month.</p><small>No payment required.</small></article>
+        <article class="plan featured"><span class="plan-name">Pro monthly</span><span class="price">A$4.99</span><p>100 AI cart captures each month.</p><small>Billed monthly.</small></article>
+        <article class="plan"><span class="plan-name">Pro annual</span><span class="price">A$39.99</span><p>100 AI cart captures each month.</p><small>Billed annually.</small></article>
       </div>
-      <aside class="boundary"><strong>What the PDF covers:</strong> item prices shown in the cart and reviewed by you. It does not represent shipping, order-level discounts, additional tax, an official retailer quote or invoice, or proof of purchase or ownership.</aside>
+      <section class="faq" aria-labelledby="allowance-title">
+        <h3 id="allowance-title">Capture allowance and downloads</h3>
+        <details>
+          <summary>What is an AI cart capture?</summary>
+          <p>It is one request for CartQuote to read a shopping cart and prepare a reviewed item-price summary. A successful capture counts even if you do not download a PDF. Known upstream failures are refunded; an interrupted request whose outcome cannot be confirmed may still count.</p>
+        </details>
+        <details>
+          <summary>How do Pro allowances work?</summary>
+          <p>Pro monthly and Pro annual each include 100 AI cart captures per UTC calendar month. The allowance is shared across devices using the same licence and unused captures do not roll over to the next month. The Free plan also resets each UTC calendar month. Pro replaces its five-capture allowance; it is not unlimited AI use.</p>
+        </details>
+        <details>
+          <summary>Do PDF downloads use a capture?</summary>
+          <p>No. Downloading or re-downloading a PDF already saved in local Quote History does not use another AI capture. Those saved PDFs can be downloaded without a separate download limit. Quote History currently keeps up to 20 PDFs, and may keep fewer if browser storage is full; it is not an indefinite archive.</p>
+        </details>
+        <details>
+          <summary>Are there overage charges?</summary>
+          <p>No. CartQuote does not bill overage charges. If an allowance is unavailable, no new AI capture is started until the next UTC calendar month. Temporary service-capacity limits can also pause new captures.</p>
+        </details>
+      </section>
+      <aside class="boundary"><strong>What the PDF covers:</strong> item prices shown in the cart and reviewed by you. It does not represent shipping, order-level discounts, additional tax, an official retailer quote or invoice, or proof of purchase or ownership. <strong>Capacity:</strong> there are no overage charges; temporary service-capacity limits may pause new AI captures.</aside>
     </section>
 
     <section class="shell close" aria-labelledby="close-title">
@@ -250,7 +274,7 @@
     </section>
   </main>
 
-  <div class="capacity"><div class="shell">Pro access is subject to temporary service-capacity limits. Payment availability and final sale terms will be confirmed at launch.</div></div>
+  <div class="capacity"><div class="shell">Checkout and public release are coming soon. Launch pricing, temporary service-capacity limits and final sale terms will be confirmed when payment is available.</div></div>
   <footer><div class="shell"><p>CartQuote is developed by Prevail Partners.</p><p><a href="mailto:operations@prevailpartners.com.au?subject=CartQuote%20support">operations@prevailpartners.com.au</a> · <a href="privacy.html">Privacy policy</a></p></div></footer>
 </body>
 </html>
