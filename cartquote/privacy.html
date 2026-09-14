@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CartQuote — Privacy Policy</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f8fafc;
+      color: #334155;
+      line-height: 1.7;
+    }
+    .container {
+      max-width: 680px;
+      margin: 40px auto;
+      padding: 48px 40px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 8px 32px rgba(0,0,0,0.06);
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+    .updated {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-bottom: 32px;
+    }
+    h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #0f172a;
+      margin-top: 28px;
+      margin-bottom: 12px;
+    }
+    p { margin-bottom: 16px; font-size: 15px; }
+    ul {
+      margin: 0 0 16px 24px;
+      font-size: 15px;
+    }
+    li { margin-bottom: 8px; }
+    strong { color: #0f172a; }
+    .highlight {
+      background: #f0fdf4;
+      border-left: 3px solid #22c55e;
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+    .contact {
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid #f1f5f9;
+      font-size: 14px;
+      color: #64748b;
+    }
+    .contact a { color: #1a73e8; text-decoration: none; }
+    .contact a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Privacy Policy</h1>
+    <p><strong>Upcoming launch release:</strong> this describes the data handling planned for CartQuote 1.2. Public launch is pending. <a href="../privacy.html">Read the policy for the current extension release</a>.</p>
+    <p class="updated">Last updated: 14 September 2026</p>
+
+    <p>CartQuote is a Chrome extension operated by Prevail Partners. It creates PDF price summaries from shopping carts. This policy explains the data used to provide that service.</p>
+
+    <div class="highlight">
+      <strong>The short version:</strong> CartQuote sends cleaned cart page content through our Cloudflare service to OpenAI to extract items and prices. PDFs, saved quote details, and the customer details you enter in CartQuote stay on your device. Logo services receive retailer domains or resource requests, and Sentry receives technical error diagnostics. Behavioural product analytics are disabled. We do not sell user data or use it for advertising.
+    </div>
+
+    <h2>Cart extraction and AI processing</h2>
+    <p>When you use CartQuote on a page, the extension reads that page with Chrome's activeTab permission. It reduces the page content before sending it over HTTPS to our Cloudflare Worker, which forwards it to OpenAI for item and price extraction. Page content can include information displayed by the retailer alongside cart items. Review the page before capturing it and avoid using CartQuote on pages containing information you do not want processed by these services.</p>
+    <p>Our extraction code processes cart content in memory and does not save it in an application database. This does not mean that every service involved has zero retention: OpenAI may retain API inputs and outputs in abuse-monitoring logs for up to 30 days by default, or longer where its policy permits. API inputs are not used to train OpenAI models by default. See <a href="https://developers.openai.com/api/docs/guides/your-data" target="_blank" rel="noopener noreferrer">OpenAI's data controls</a>. Cloudflare processes network information, including your IP address, to deliver and protect the service.</p>
+
+    <h2>Data stored in your browser</h2>
+    <ul>
+      <li><strong>Customer details:</strong> The name, email address, and phone number you enter in the PDF customer-details section are saved in Chrome local storage. CartQuote does not send these fields to its extraction or error-reporting services.</li>
+      <li><strong>Quote history:</strong> Up to 20 PDFs and their quote records, including item descriptions, quantities, prices, totals, retailer names and source page URLs, are saved locally. Storage limits may reduce the number retained. PDFs can contain the customer details you choose to include.</li>
+      <li><strong>Usage and preferences:</strong> Free-tier usage counts, product preferences and a random installation identifier are stored locally to operate the extension. The installation identifier supports service quotas; it is not used for behavioural analytics.</li>
+      <li><strong>Pro licence:</strong> Your licence key, activation instance identifier, entered email address and validation information are stored using Chrome sync storage, which can sync through your Google account across Chrome installations.</li>
+    </ul>
+    <p>You can clear quote history from the extension. Other locally saved extension data can be removed through Chrome's extension-data controls or by uninstalling. Files you downloaded remain until you delete them. Google controls the handling of data synced through your Chrome profile.</p>
+
+    <h2>Payments and licence validation</h2>
+    <p>Lemon Squeezy processes Pro purchases and associated payment, email and licence records. CartQuote sends your licence key and activation details to Lemon Squeezy when activating a licence and checks the returned purchase email against the email you enter. For Pro extraction requests, the extension also sends the licence key and activation instance identifier to our Cloudflare Worker, which validates them with Lemon Squeezy. These credentials and the provider's response are processed in memory, not saved in our quota database. We do not receive or store your payment-card details in the extension. Lemon Squeezy and its payment providers handle purchase records under their own policies.</p>
+
+    <h2>Service quotas and abuse protection</h2>
+    <p>The extension sends its random installation identifier with extraction requests. For free use, our Cloudflare service stores a SHA-256 hash of that identifier with the UTC month, a usage count and an expiry time. It also stores daily aggregate request counts and short-lived random request identifiers to coordinate concurrent requests. The quota database does not contain cart content, names, email addresses, IP addresses, or raw licence keys. Paid licence validation does not create a per-install monthly quota record.</p>
+    <p>Free-use counter records expire seven days after their UTC calendar month ends. Daily aggregate counters expire after eight days, and request reservations expire after five minutes. An automatic cleanup runs approximately every minute while records remain; infrastructure failures can delay physical deletion. Cloudflare's recovery history can retain deleted database state for up to a further 30 days. Our per-IP rate limiter and service-wide daily capacity controls protect availability and operating costs. Known extraction failures return the free allowance; an interrupted request whose outcome cannot be confirmed may still count.</p>
+
+    <h2>Retailer logos</h2>
+    <p>CartQuote requests retailer logo and favicon resources from the retailer's website and, where needed, Clearbit and Google's favicon services. Third-party logo requests include the retailer's domain. Resource servers also receive ordinary connection information such as your IP address. Cart contents and the customer-details fields are not included in logo-service requests.</p>
+
+    <h2>Error diagnostics</h2>
+    <p>When extraction fails or times out, CartQuote sends a technical error report to Sentry. It can contain an error message and stack trace, the retailer's domain, the extension version, the extraction step, the length of the processed content, and URLs of resources recently fetched by the popup. We do not deliberately include cart contents, licence keys, or PDF customer-details fields in these reports. Sentry processes these reports and connection information under its service policies. These diagnostics help us investigate failures; they are not advertising or behavioural analytics.</p>
+
+    <h2>No behavioural product analytics</h2>
+    <p>This release does not send product-usage events to PostHog and does not create a persistent analytics identifier. Any legacy analytics identifier created by earlier development builds is removed when the disabled analytics code is invoked. We do not use tracking pixels, session replay, or user data for advertising. Operational processing for extraction, licence checks, service protection, and error diagnostics still occurs as described above.</p>
+
+    <h2>Third-party services and retention</h2>
+    <p>The services involved are Cloudflare (extraction proxy and service protection), OpenAI (AI extraction), the retailer and Clearbit/Google favicon services (logo resources), Sentry (error diagnostics), Lemon Squeezy and its payment providers (purchases and licensing), and Google Chrome sync (synced licence data). Their retention rules and security practices apply to the data they process. CartQuote does not promise zero third-party retention. Local quote and customer data remains until it is cleared, removed as old history, or deleted with the extension; downloaded files are separate.</p>
+
+    <h2>Permissions</h2>
+    <ul>
+      <li><strong>activeTab:</strong> Read the page you choose to capture.</li>
+      <li><strong>scripting:</strong> Run the page-content extraction code on that page.</li>
+      <li><strong>storage:</strong> Save quotes, customer details, usage, preferences and licence information.</li>
+      <li><strong>contextMenus:</strong> Provide a Quote History option in the extension's context menu.</li>
+    </ul>
+
+    <h2>Limited Use compliance</h2>
+    <p>The use of information received from Google APIs and a user's browsing context adheres to the Chrome Web Store User Data Policy, including the Limited Use requirements. We use data only to provide, maintain, secure or improve CartQuote's disclosed features. We transfer it only as needed for those purposes, legal requirements, or protection against abuse. We do not sell it, use it for advertising, or permit people to read it except with your explicit consent for specific data, for aggregated and anonymized internal operations, for security purposes, or as required by law.</p>
+
+    <h2>Changes and requests</h2>
+    <p>We will update this policy when data practices change and provide a prominent in-product disclosure where required. Contact us for privacy questions or requests about data held by us. Do not include sensitive cart content or your licence key in an initial support email.</p>
+
+    <div class="contact">
+      <p>Questions about this privacy policy? Contact us at <a href="mailto:operations@prevailpartners.com.au">operations@prevailpartners.com.au</a></p>
+    </div>
+  </div>
+</body>
+</html>
